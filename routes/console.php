@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\TMDBData;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
