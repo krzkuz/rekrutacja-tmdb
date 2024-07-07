@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -13,13 +14,15 @@ class Serie extends Model
 
     protected $fillable = [
         'tmdb_id',
-        'language',
-        'title',
-        'overview'
     ];
 
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
+    }
+
+    public function translates(): MorphMany
+    {
+        return $this->morphMany(Translation::class, 'translatable');
     }
 }

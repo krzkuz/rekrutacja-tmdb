@@ -18,4 +18,13 @@ use App\Http\Controllers\Api\SerieController;
 */
 //movies
 Route::get('/{language}/movies', [MovieController::class, 'index']);
-Route::get('/movies/{id}', [MovieController::class, 'show']);
+Route::get('/{language}/movies/{id}', [MovieController::class, 'show']);
+
+//series
+Route::get('/{language}/series', [SerieController::class, 'index']);
+Route::get('/{language}/series/{id}', [SerieController::class, 'show']);
+
+//genres
+Route::get('/{language}/genres', [GenreController::class, 'index']);
+Route::get('/{language}/series-by-genre/{id}', [GenreController::class, 'seriesByGenre']);
+Route::get('/{language}/movies-by-genre/{id}', [GenreController::class, 'moviesByGenre']);

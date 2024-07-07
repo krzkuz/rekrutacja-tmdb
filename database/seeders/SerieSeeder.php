@@ -20,11 +20,16 @@ class SerieSeeder extends Seeder
 
 
             foreach (array_slice($series, 0, 50) as $serie) {
-                $newSerie = Serie::create([
+                $newSerie = Serie::FirstOrCreate([
                     'tmdb_id' => $serie['id'],
+                ]);
+
+                Translation::firstOrCreate([
                     'language' => $language,
                     'name' => $serie['name'],
-                    'overview' => $serie['overview'],
+                    'translatable_type' => Serie::class,
+                    'translatable_id' => $newSerie->id,
+                    'overview' => $serie['overview']
                 ]);
 
                 //get genres associated with serie and attach it to this Serie

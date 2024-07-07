@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Genre extends Model
 {
@@ -13,8 +14,6 @@ class Genre extends Model
 
     protected $fillable = [
         'tmdb_id',
-        'language',
-        'name'
     ];
 
     public function movies(): BelongsToMany
@@ -25,5 +24,10 @@ class Genre extends Model
     public function series(): BelongsToMany
     {
         return $this->belongsToMany(Serie::class);
+    }
+
+    public function translates(): MorphMany
+    {
+        return $this->morphMany(Translation::class, 'translatable');
     }
 }

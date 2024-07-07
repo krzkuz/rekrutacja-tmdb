@@ -19,12 +19,19 @@ class MovieSeeder extends Seeder
             $movies = $this->fetchMovies($apiKey, $language);
 
             foreach (array_slice($movies, 0, 50) as $movie) {
-                $newMovie = Movie::create([
-                    'tmdb_id' => $movie['id'],
-                    'language' => $language,
-                    'title' => $movie['title'],
-                    'overview' => $movie['overview'],
+                $newMovie = Movie::firstOrCreate([
+                    'tmdb_id' => $movie['id']
                 ]);
+
+
+                Translation::firstOrCreate([
+                    'language' => $language,
+                    'name' => $movie['title'],
+                    'translatable_type' => Movie::class,
+                    'translatable_id' => $newMovie->id,
+                    'overview' => $movie['overview']
+                ]);
+
 
                 //get genres associated with movie and attach it to this Movie
                 $genreIds = $movie['genre_ids'];

@@ -8,27 +8,21 @@ use App\Http\Controllers\Controller;
 
 class SerieController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(string $language): JsonResponse
     {
-        $series = Serie::where('language', 'en')
-            ->get();
+        $series = Serie::with(['translates' => function ($query) use ($language) {
+            $query->where('language', $language);
+        }])->get();
 
         return response()->json($series);
     }
 
-    public function indexPl(): JsonResponse
+    public function show(string $language, int $id): JsonResponse
     {
-        $series = Serie::where('language', 'pl')
-            ->get();
+        $serie = Serie::with(['translates' => function ($query) use ($language) {
+            $query->where('language', $language);
+        }])->find($id);
 
-        return response()->json($series);
-    }
-
-    public function indexDe(): JsonResponse
-    {
-        $series = Serie::where('language', 'de')
-            ->get();
-
-        return response()->json($series);
+        return response()->json($serie);
     }
 }

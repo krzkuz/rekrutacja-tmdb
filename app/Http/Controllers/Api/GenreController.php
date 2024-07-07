@@ -8,27 +8,41 @@ use App\Http\Controllers\Controller;
 
 class GenreController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(string $language): JsonResponse
     {
-        $genres = Genre::where('language', 'en')
-            ->get();
+        $genres = Genre::with(['translates' => function ($query) use ($language) {
+            $query->select('id', 'name', 'language', 'translatable_id', 'translatable_type', 'created_at', 'updated_at')
+                ->where('language', $language);
+        }])->get();
 
         return response()->json($genres);
     }
 
-    public function indexPl(): JsonResponse
+    public function seriesByGenre(string $language, int $id): JsonResponse
     {
-        $genres = Genre::where('language', 'pl')
-            ->get();
+        $genre = Genre::with([
+            'series.translates' => function ($query) use ($language) {
+                $query->where('language', $language);
+            },
+            'translates' => function ($query) use ($language) {
+                $query->where('language', $language);
+            }
+        ])->find($id);
 
-        return response()->json($genres);
+        return response()->json($genre);
     }
 
-    public function indexDe(): JsonResponse
+    public function moviesByGenre(string $language, int $id): JsonResponse
     {
-        $genres = Genre::where('language', 'de')
-            ->get();
+        $genre = Genre::with([
+            'movies.translates' => function ($query) use ($language) {
+                $query->where('language', $language);
+            },
+            'translates' => function ($query) use ($language) {
+                $query->where('language', $language);
+            }
+        ])->find($id);
 
-        return response()->json($genres);
+        return response()->json($genre);
     }
 }

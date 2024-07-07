@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->id();
             $table->string('tmdb_id');
-            $table->string('language');
-            $table->string('name');
-            $table->text('overview')->nullable();
             $table->timestamps();
         });
     }

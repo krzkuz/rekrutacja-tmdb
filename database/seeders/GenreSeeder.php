@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Genre;
+use App\Models\Translation;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GenreSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class GenreSeeder extends Seeder
         $apiKey = env('TMDB_API_KEY');
         $languages = ['en', 'de', 'pl'];
 
+
         foreach ($languages as $language) {
             $genres = $this->fetchGenres($apiKey, $language);
 
@@ -24,8 +26,13 @@ class GenreSeeder extends Seeder
             foreach ($genres as $genre) {
                 $newGenre = Genre::firstOrCreate([
                     'tmdb_id' => $genre['id'],
+                ]);
+
+                Translation::firstOrCreate([
                     'language' => $language,
                     'name' => $genre['name'],
+                    'translatable_type' => Genre::class,
+                    'translatable_id' => $newGenre->id
                 ]);
             }
         }
