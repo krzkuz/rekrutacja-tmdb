@@ -5,6 +5,10 @@
 Do działania progamu oprócz standardowej instalacji, w pliku .env trzeba dodać linię kodu z kluczem API TMDB:
 TMDB_API_KEY = {api_key}
 
+## Migracje i seedowanie bazy danych
+
+By to zrobić wystarczy wpisać komendę 'php artisan TMDBData'
+
 ## Endpointy
 
 ### Movies
